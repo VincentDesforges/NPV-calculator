@@ -1,14 +1,14 @@
 // functions for the cash flow computations:
 
 // calculates the NPV of a cash payment of amount->cash yearsForward in the future
-const calcNPV = (cash, yearsForward) => cash / 1.1 ** yearsForward;
+const calcNPV = (cash, yearsForward) => cash / (1 + process.env.DISCOUNT_RATE / 100) ** yearsForward;
 
-// populates an object with the values and their corresponding NPVs for the next 10 years
+// populates an object with the values and their corresponding NPVs for the next few years
 const generateCashFlows = (passedFunction, intialCashFlow, growthFactor) => {
   const output = {};
   output[0] = {amount: intialCashFlow, presentValue: 0};
 
-  for (i = 1; i <= 10; i++) {
+  for (i = 1; i <= process.env.TIME_HORIZON; i++) {
     const cash = passedFunction(output, growthFactor);
     output[i] = {
       amount: cash,
@@ -18,19 +18,19 @@ const generateCashFlows = (passedFunction, intialCashFlow, growthFactor) => {
   return output;
 };
 
-// generates the case for current cash flow being maintained for the next 10 years
+// generates the case for current cash flow being maintained for the next few years
 const cashNoGrowth = (intialCashFlow) => {
   return cashSteadyGrowth(intialCashFlow, 0);
 };
 
-// generates the case for the cash flows growing steadily for the next 10 years
+// generates the case for the cash flows growing steadily for the next few years
 const cashSteadyGrowth = (intialCashFlow, growth) => {
   const growthFactor = 1 + growth / 100;
   const cashCalc = (input, growthFactor) => input[i - 1].amount * growthFactor;
   return generateCashFlows(cashCalc, intialCashFlow, growthFactor);
 };
 
-// generates the case for growth for 5 years and stagnation for 5
+// generates the case for growth for 5 years and stagnation for the rest
 const cashAnalystGrowth = (intialCashFlow, growth) => {
   const growthFactor = 1 + growth / 100;
   const cashCalc = (input, growthFactor) => {

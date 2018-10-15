@@ -1,9 +1,11 @@
+require('./config/config');
+
 const {cashNoGrowth,
   cashSteadyGrowth,
   cashAnalystGrowth} = require('./Utils/cashFlows'); // <-- syntax for import all ?
 
 // console.log(cashNoGrowth(200));
-// console.log(cashSteadyGrowth(200, 12));
+console.log(cashSteadyGrowth(200, 12));
 // console.log(cashAnalystGrowth(200, 10));
 
 
