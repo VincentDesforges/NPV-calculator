@@ -7,7 +7,6 @@ const calcNPV = (cash, yearsForward) => cash / (1 + process.env.DISCOUNT_RATE / 
 const generateCashFlows = (passedFunction, intialCashFlow, growthFactor) => {
   const output = {};
   output[0] = {amount: intialCashFlow, presentValue: 0};
-
   for (i = 1; i <= process.env.TIME_HORIZON; i++) {
     const cash = passedFunction(output, growthFactor);
     output[i] = {
