@@ -7,14 +7,14 @@ Once you have the project file on your computer make sure to run
 ```
 npm install
 ```
-to install all the required dependancies
+to install all the required dependancies.
 
 You will also need to create a config.json file in the config folder and fill in the following fields: --- XXXX
 ```
 {
   "constants": {
-    "DISCOUNT_RATE": 10,
-    "TIME_HORIZON": 10
+    "DISCOUNT_RATE": XX,
+    "TIME_HORIZON": XX
   },
   "testConstants": {
     "DISCOUNT_RATE": 10,
@@ -25,9 +25,9 @@ You will also need to create a config.json file in the config folder and fill in
 I made this file private in case you prefer to keep your assumptions to yourself!
 
 ## A few notes on parameter selection
-The choice of parameters use when running the program will have a significant impact on the end result and as a result it is best to stay on the conservative side:
+The choice of parameters use when running the program will have a significant impact on the end result and as a consequence it is bester to stay on the conservative side:
 * Time horizon: --- XXX
-* Discount rate: For this value a higher value is more conservative. By targetting a higher rate of return you are making it harder
+* Discount rate: For this value a higher number is more conservative. Cash today is worth a lot more than cash tomorrow!
 
 ## Notes on the different models
 Explain reasoning for the three/more models and detail implementation... XXX
