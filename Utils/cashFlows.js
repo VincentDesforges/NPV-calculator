@@ -17,6 +17,7 @@ const generateCashFlows = (passedFunction, intialCashFlow, growthFactor) => {
   return output;
 };
 
+// Sums up the NPVs for each yearly payment
 const totalNPV = cashFlowObj => {
   let NPV = 0;
   Object.keys(cashFlowObj).forEach(key => {
