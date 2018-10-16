@@ -1,7 +1,7 @@
 // functions for the cash flow computations:
 
 // calculates the NPV of a cash payment of amount->cash yearsForward in the future
-const calcNPV = (cash, yearsForward) => cash / (1 + process.env.DISCOUNT_RATE / 100) ** yearsForward;
+const calcNPVs = (cash, yearsForward) => cash / (1 + process.env.DISCOUNT_RATE / 100) ** yearsForward;
 
 // populates an object with the values and their corresponding NPVs for the next few years
 const generateCashFlows = (passedFunction, intialCashFlow, growthFactor) => {
@@ -11,10 +11,18 @@ const generateCashFlows = (passedFunction, intialCashFlow, growthFactor) => {
     const cash = passedFunction(output, growthFactor);
     output[i] = {
       amount: cash,
-      presentValue: calcNPV(cash, i)
+      presentValue: calcNPVs(cash, i)
     };
   }
   return output;
+};
+
+const totalNPV = cashFlowObj => {
+  let NPV = 0;
+  Object.keys(cashFlowObj).forEach(key => {
+    NPV = NPV + cashFlowObj[key].presentValue;
+  })
+  return Math.round(NPV * 100) / 100;
 };
 
 // generates the case for current cash flow being maintained for the next few years
@@ -42,7 +50,7 @@ const cashAnalystGrowth = (intialCashFlow, growth) => {
   return generateCashFlows(cashCalc, intialCashFlow, growthFactor);;
 };
 
-module.exports = {cashNoGrowth, cashSteadyGrowth, cashAnalystGrowth};
+module.exports = {cashNoGrowth, cashSteadyGrowth, cashAnalystGrowth, totalNPV};
 
 
 // No growth
