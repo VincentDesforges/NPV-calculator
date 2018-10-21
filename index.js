@@ -1,8 +1,13 @@
 require('./config/config');
 
-const {cashNoGrowth,
+const { getPastCashFlows } = require('./Utils/yahooRequests');
+
+const {
+  cashNoGrowth,
   cashSteadyGrowth,
-  cashAnalystGrowth, totalNPV} = require('./Utils/cashFlows');
+  cashAnalystGrowth,
+  totalNPV,
+} = require('./Utils/cashFlows');
 
 // console.log(cashNoGrowth(200));
 // console.log(cashSteadyGrowth(200, 5));
@@ -11,6 +16,14 @@ const {cashNoGrowth,
 console.log('No growth:', totalNPV(cashNoGrowth(200)));
 console.log('Analyst growth:', totalNPV(cashAnalystGrowth(200, 5)));
 console.log('Steady growth:', totalNPV(cashSteadyGrowth(200, 5)));
+
+getPastCashFlows('GE').then((jsonResponse) => {
+  // console.log(JSON.stringify(jsonResponse, undefined, 2));
+  console.log(jsonResponse);
+  // console.log('finished');
+}).catch((e) => {
+  console.log(e);
+});
 
 // Connect to yahoo finance and get historical cash flows data from company
 
