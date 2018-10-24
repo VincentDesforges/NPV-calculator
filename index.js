@@ -11,6 +11,19 @@ const {
   totalNPV,
 } = require('./Utils/cashFlows');
 
+const {
+  cashFlowStats
+} = require('./Utils/pastCashStats');
+
+// Order:
+// Get past cash flows per share
+// Then extract stats -> average cashflow and average growth rate
+// Perform the analysis for the three scenarios
+// Sum up to get value for each
+// Print neatly: <-- store in separate function?
+
+// Still to write tests!!!
+
 // console.log(cashNoGrowth(200));
 // console.log(cashSteadyGrowth(200, 5));
 // console.log(cashAnalystGrowth(200, 5));
@@ -32,17 +45,9 @@ const {
 // });
 
 getCashFlowPerShare('AAPL').then((jsonResponse) => {
+  const cashStats = cashFlowStats(jsonResponse);
   console.log(jsonResponse);
+  console.log(cashStats);
 }).catch((e) => {
   console.log(e);
 });
-
-// -----
-
-// Connect to yahoo finance and get historical cash flows data from company
-
-// How is the initial cash flow value calculated?
-// - average for past few years?
-// - should some computation for the variance of the past earnings be used?
-// - fit a curve? (to get growth rate)
-// - Use of outlier remove to deminish the influence of large one off events?
