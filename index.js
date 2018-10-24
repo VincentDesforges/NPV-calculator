@@ -1,8 +1,7 @@
 require('./config/config');
 
 const {
-  getPastCashFlows,
-  getNumOfOutstandingShares,
+  getCashFlowPerShare,
 } = require('./Utils/yahooRequests');
 
 const {
@@ -16,9 +15,9 @@ const {
 // console.log(cashSteadyGrowth(200, 5));
 // console.log(cashAnalystGrowth(200, 5));
 
-console.log('No growth:', totalNPV(cashNoGrowth(200)));
-console.log('Analyst growth:', totalNPV(cashAnalystGrowth(200, 5)));
-console.log('Steady growth:', totalNPV(cashSteadyGrowth(200, 5)));
+// console.log('No growth:', totalNPV(cashNoGrowth(200)));
+// console.log('Analyst growth:', totalNPV(cashAnalystGrowth(200, 5)));
+// console.log('Steady growth:', totalNPV(cashSteadyGrowth(200, 5)));
 
 // getPastCashFlows('GE').then((jsonResponse) => {
 //   console.log(jsonResponse);
@@ -32,14 +31,15 @@ console.log('Steady growth:', totalNPV(cashSteadyGrowth(200, 5)));
 //   console.log(e);
 // });
 
+getCashFlowPerShare('AAPL').then((jsonResponse) => {
+  console.log(jsonResponse);
+}).catch((e) => {
+  console.log(e);
+});
+
 // -----
 
 // Connect to yahoo finance and get historical cash flows data from company
-
-// FOR TESTING
-// axios call should return 200 if correct data is sent
-// should not be empty when AAPL is passed in
-// Should handle case where invalid ticker is sent
 
 // How is the initial cash flow value calculated?
 // - average for past few years?
