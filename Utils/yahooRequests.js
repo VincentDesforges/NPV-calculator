@@ -22,7 +22,7 @@ const getPastCashFlows = async (ticker) => {
 };
 
 // Get the number of shares outstanding (in thousands)
-const getNumOfOutstandingShares = async (ticker) => {
+const getShareNumAndAnalystGrowth = async (ticker) => {
   try {
     const response = await axios.get(`https://finance.yahoo.com/quote/${ticker}/key-statistics?p=${ticker}`);
     if (!response) {
@@ -44,7 +44,13 @@ const getNumOfOutstandingShares = async (ticker) => {
         throw new Error();
     }
 
-    return sharesOutstandingInThousands;
+    const forwardPE = $('span:contains("Forward P/E")', response.data)[0].parent.next.children[0].data;
+    const PEG = $('span:contains("PEG Ratio (5 yr expected)")', response.data)[0].parent.next.children[0].data;
+
+    return {
+      sharesOutstanding: sharesOutstandingInThousands,
+      analystGrowth: forwardPE / PEG,
+    };
   } catch (e) {
     throw new Error(`Unable to find the number of outstanding shares for ${ticker}`);
   }
@@ -53,19 +59,21 @@ const getNumOfOutstandingShares = async (ticker) => {
 // Get the cash flow per share for the past few years (in $/EUR/GBP or relevant currency per share)
 const getCashFlowPerShare = async (ticker) => {
   try {
-    const [totalCashFlow, sharesOutstanding] = await Promise.all([
+    const [totalCashFlow, sharesAndGrowth] = await Promise.all([
       getPastCashFlows(ticker),
-      getNumOfOutstandingShares(ticker),
+      getShareNumAndAnalystGrowth(ticker),
     ]);
 
-    return totalCashFlow.map(cash => cash / sharesOutstanding);
+    console.log('Analyst Growth:', sharesAndGrowth.analystGrowth, '<=== pass through');
+
+    return totalCashFlow.map(cash => cash / sharesAndGrowth.sharesOutstanding);
   } catch (e) {
     throw new Error(e);
   }
 };
 
 module.exports = {
-  getNumOfOutstandingShares,
+  getShareNumAndAnalystGrowth,
   getPastCashFlows,
   getCashFlowPerShare,
 };
